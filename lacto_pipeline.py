@@ -20,7 +20,7 @@ def init_folders(output_folder, sample_no):
         if not os.path.exists(fold):
             os.makedirs(fold)
 
-def subsample_trim_assemble(data_folder, output_folder, subsamples, no_reads):
+def subsample_trim_assemble(data_folder, output_folder, subsamples, no_reads_in_subsample):
     ordered_fastqs = sorted([fastq for fastq in glob.glob(f"{data_folder}/*.fastq")]) #sorted fastqs
     for i in range(0, len(ordered_fastqs), 2): #for each paired fastq file (you need to subsample 50 times)
         fastq1_path = ordered_fastqs[i] #fastq1
@@ -29,8 +29,8 @@ def subsample_trim_assemble(data_folder, output_folder, subsamples, no_reads):
         sample_no = file_name[0:file_name.find("_")] #sample no
                 
         random.seed(1) #setting seed
-        no_reads = count_reads(fastq1_path) #counting number of reads
-        randomList=random.sample(range(0,no_reads),subsamples) #50 random numbers from 0 to no_reads range - your seeds for seqtk
+        no_reads_in_sample = count_reads(fastq1_path) #counting number of reads
+        randomList=random.sample(range(0,no_reads_in_sample),subsamples) #50 random numbers from 0 to no_reads range - your seeds for seqtk
 
         init_folders(output_folder, sample_no) #initialize folders
 
@@ -39,8 +39,8 @@ def subsample_trim_assemble(data_folder, output_folder, subsamples, no_reads):
             fastq2 = f"{sample_no}_2"
             os.chdir(f"{output_folder}/{sample_no}/ss")
 
-            seqtk_fastq1 = f"seqtk sample -s{seed} {fastq1_path} {no_reads} > {fastq1}_ss{index}.fastq"
-            seqtk_fastq2 = f"seqtk sample -s{seed} {fastq2_path} {no_reads} > {fastq2}_ss{index}.fastq"
+            seqtk_fastq1 = f"seqtk sample -s{seed} {fastq1_path} {no_reads_in_subsample} > {fastq1}_ss{index}.fastq"
+            seqtk_fastq2 = f"seqtk sample -s{seed} {fastq2_path} {no_reads_in_subsample} > {fastq2}_ss{index}.fastq"
             subprocess.run(f'conda run -n lacto {seqtk_fastq1}', shell = True)
             subprocess.run(f'conda run -n lacto {seqtk_fastq2}', shell = True)
 
@@ -104,9 +104,10 @@ args = parser.parse_args()
 
 # START RUNNING FUNCTIONS
 if glob.glob(f"{args.input}"):
-    subsample_trim_assemble(args.input, args.output, args.subsamples, args.reads)
-    df = collate_anis(args.output)
-    os.system(f'Rscript /home/nshanbhag/lacto_compare/stats.r')
+    print(args.input, args.output, args.subsamples, args.reads)
+    # subsample_trim_assemble(args.input, args.output, args.subsamples, args.reads)
+    # df = collate_anis(args.output)
+    # os.system(f'Rscript /home/nshanbhag/lacto_compare/stats.r')
 else:
     print("Data was not found in the given input folder. Please try again")
 # %%
