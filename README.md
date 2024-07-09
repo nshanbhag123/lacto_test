@@ -25,7 +25,8 @@ This assumes you already have SRA fastq files downloaded for multiple strains wi
  ```
  python3 lacto_pipeline.py --i 'path/to/fastq/files' --o 'path/to/output'
  ```
-Options include --subsamples (number of subsamples per strain - default 50) and --reads_in_subsample (number of reads in each subsample - default 15000, you can adjust based on coverage)
+Options include --subsamples (number of subsamples per strain - default 50) and --reads_in_subsample (number of reads in each subsample - default 15000, you can adjust based on coverage).
+
 It is recommended to specify an output folder that is empty, or to specify an output folder you would like to create.
 
 ### Output Folders of Main Pipeline
