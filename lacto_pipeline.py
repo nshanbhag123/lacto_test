@@ -49,7 +49,7 @@ def subsample_trim_assemble(data_folder, output_folder, subsamples, no_reads_in_
 
             os.chdir(f"{output_folder}/{sample_no}/trim_ss")
             spades_path = "/home/nshanbhag/software/SPAdes-3.15.5-Linux/bin"
-            spades = f"python3 {spades_path}/spades.py --only-assembler -t 12 -1 {fastq1}_ss{index}_trim.fastq -2 {fastq2}_ss{index}_trim.fastq -o {output_folder}/{sample_no}/assemble/{sample_no}_ss{index}_assembly"
+            spades = f"python3 {spades_path}/spades.py --only-assembler -t 15 -1 {fastq1}_ss{index}_trim.fastq -2 {fastq2}_ss{index}_trim.fastq -o {output_folder}/{sample_no}/assemble/{sample_no}_ss{index}_assembly"
             os.system(spades)
 
             os.chdir(f"{output_folder}/{sample_no}/assemble")
@@ -97,17 +97,17 @@ def collate_anis(output_folder):
 #ARG PARSE
 parser = argparse.ArgumentParser(description='Simulate Distribution of ANI values for a Given Species')
 parser.add_argument('--subsamples','-sub', type = int, default = 50, help='The number of subsamples per paired-end fastq')
-parser.add_argument('--reads','-r', type=int, default = 150000, help='Number of reads in each subsample - can adjust based on coverage')
+parser.add_argument('--reads_in_subsample','-r', type=int, default = 150000, help='Number of reads in each subsample - can adjust based on coverage')
 parser.add_argument('--output', '-o', required = True, type = str, help = 'Destination path of output file')
 parser.add_argument('--input', '-i', required = True, help = 'Path to paired end fastqs folder')
 args = parser.parse_args()
 
 # START RUNNING FUNCTIONS
 if glob.glob(f"{args.input}"):
-    print(args.input, args.output, args.subsamples, args.reads)
-    # subsample_trim_assemble(args.input, args.output, args.subsamples, args.reads)
-    # df = collate_anis(args.output)
-    # os.system(f'Rscript /home/nshanbhag/lacto_compare/stats.r')
+    print(args.input, args.output, args.subsamples, args.reads_in_subsample)
+    subsample_trim_assemble(args.input, args.output, args.subsamples, args.reads_in_subsample)
+    df = collate_anis(args.output)
+    #os.system(f'Rscript /home/nshanbhag/lacto_compare/stats.r')
 else:
     print("Data was not found in the given input folder. Please try again")
 # %%
