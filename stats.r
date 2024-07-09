@@ -15,7 +15,7 @@ df <- read.csv(args$simu_anis)
 df <- pivot_longer(df, cols = -X, names_to = "strain", values_to = "ani")
 
 ###############################
-stats_output <- paste(args$outh, "/", "stats.txt", sep = "")
+stats_output <- paste(args$out, "/", "stats.txt", sep = "")
 sink(stats_output)
 
 ani <- df$ani
