@@ -1,11 +1,10 @@
-#%%
 import glob
 import os
 import random
 import subprocess
 import pandas as pd
 import argparse
-#%%
+
 def count_reads(fastq):
     f = open(fastq, "r")
     lines = f.readlines()
@@ -85,7 +84,6 @@ def calc_anis(output_folder, sample_no): #random pairwise ANI calculation among 
 def collate_anis(output_folder): #collates anis from all strain samples
     dicty = {}
     for sample_fold in glob.glob(f"{output_folder}/*"):
-        print(sample_fold)
         sample = os.path.basename(sample_fold)
         ani = pd.read_csv(f"{sample_fold}/ani/pairwise_sim_anis.tsv", delimiter= "\t", header = None).iloc[:,2].tolist()
         dicty[sample] = ani
@@ -106,7 +104,6 @@ if glob.glob(f"{args.input}"):
     print(args.input, args.output, args.subsamples, args.reads_in_subsample)
     subsample_trim_assemble(args.input, args.output, args.subsamples, args.reads_in_subsample)
     df = collate_anis(args.output)
-    #os.system(f'Rscript /home/nshanbhag/lacto_compare/stats.r')
 else:
     print("Data was not found in the given input folder. Please try again")
-# %%
+
