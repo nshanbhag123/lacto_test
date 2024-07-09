@@ -1,4 +1,4 @@
-Cleaning up Lacto Project
+### Cleaning up Lacto Project
 
 This assumes you already have SRA fastq files downloaded for multiple strains within the same species (i.e. Lactobacillus iners UMB4066, UMB 4068)
 
