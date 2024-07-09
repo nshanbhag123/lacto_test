@@ -41,27 +41,27 @@ def subsample_trim_assemble(data_folder, output_folder, subsamples, no_reads_in_
 
             seqtk_fastq1 = f"seqtk sample -s{seed} {fastq1_path} {no_reads_in_subsample} > {fastq1}_ss{index}.fastq"
             seqtk_fastq2 = f"seqtk sample -s{seed} {fastq2_path} {no_reads_in_subsample} > {fastq2}_ss{index}.fastq"
-            subprocess.run(f'conda run -n lacto {seqtk_fastq1}', shell = True)
-            subprocess.run(f'conda run -n lacto {seqtk_fastq2}', shell = True)
+            subprocess.run(f'conda run -n lacto {seqtk_fastq1}', shell = True) #SUBSAMPLE
+            subprocess.run(f'conda run -n lacto {seqtk_fastq2}', shell = True) #SUBSAMPLE
 
             bbduk = f"bbduk.sh -Xmx1G overwrite=t in1={fastq1}_ss{index}.fastq in2={fastq2}_ss{index}.fastq out1={output_folder}/{sample_no}/trim_ss/{fastq1}_ss{index}_trim.fastq out2={output_folder}/{sample_no}/trim_ss/{fastq2}_ss{index}_trim.fastq qtrim=rl ftl=15 ftr=135 maq=20 maxns=0 stats={output_folder}/{sample_no}/trim_ss/{sample_no}_ss{index}_trim.stats statscolumns=5 trimq=20"
-            subprocess.run(f'conda run -n lacto {bbduk}', shell = True)
+            subprocess.run(f'conda run -n lacto {bbduk}', shell = True) #TRIM
 
             os.chdir(f"{output_folder}/{sample_no}/trim_ss")
             spades_path = "/home/nshanbhag/software/SPAdes-3.15.5-Linux/bin"
             spades = f"python3 {spades_path}/spades.py --only-assembler -t 15 -1 {fastq1}_ss{index}_trim.fastq -2 {fastq2}_ss{index}_trim.fastq -o {output_folder}/{sample_no}/assemble/{sample_no}_ss{index}_assembly"
-            os.system(spades)
+            os.system(spades) #ASSEMBLE
 
             os.chdir(f"{output_folder}/{sample_no}/assemble")
             copy = f"cp {sample_no}_ss{index}_assembly/contigs.fasta {sample_no}_ss{index}_contigs.fasta"
-            os.system(copy)
+            os.system(copy) #COPY CONTIGS.FASTAS 
 
-        remove = f"rm -r {output_folder}/{sample_no}/assemble/*assembly" #removing the extra junk from spades
+        remove = f"rm -r {output_folder}/{sample_no}/assemble/*assembly" #REMOVE JUNK
         os.system(remove)
 
-        calc_anis(output_folder, sample_no)
+        calc_anis(output_folder, sample_no) #CALC PAIRWISE ANIS AMONG SUBSAMPLE ASSEMBLIES
 
-def calc_anis(output_folder, sample_no):
+def calc_anis(output_folder, sample_no): #random pairwise ANI calculation among subsamples
     assemblies = [assembly for assembly in glob.glob(f"{output_folder}/{sample_no}/assemble/*_contigs.fasta")]
     pairwise_sim_anis = open(f"{output_folder}/{sample_no}/ani/pairwise_sim_anis.tsv", "w")
     i = 1
@@ -83,7 +83,7 @@ def calc_anis(output_folder, sample_no):
 
     pairwise_sim_anis.close()
 
-def collate_anis(output_folder):
+def collate_anis(output_folder): #collates anis from all strain samples
     dicty = {}
     for sample_fold in glob.glob(f"{output_folder}/*"):
         print(sample_fold)
