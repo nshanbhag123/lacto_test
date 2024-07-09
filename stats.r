@@ -11,9 +11,6 @@ parser$add_argument('--test_anis', help = 'specify path to test ani file')
 parser$add_argument('--out', help = 'specify path to output folder')
 args <- parser$parse_args()
 
-
-# wk.dir <- setwd("/home/nshanbhag/lacto_compare/")
-# ani <- paste(wk.dir, "/", "out", "/", "coallate_ani.csv", sep = "")
 df <- read.csv(args$simu_anis)
 df <- pivot_longer(df, cols = -X, names_to = "strain", values_to = "ani")
 
@@ -54,7 +51,7 @@ gg <- boot_strap_df %>% ggplot( aes(x=boot_strap)) + geom_density(fill="#69b3a2"
 gg_output <- paste(args$out, "/", "density.png", sep = "") 
 ggsave(gg_output, plot = gg, device = "png")
 
-
+#################################
 real_ani <- read_tsv(args$test_anis, col_names = FALSE)
 col_names <- c("strain1", "strain2", "ani", "seq_fragments", "aligned")
 names(real_ani) <- col_names
