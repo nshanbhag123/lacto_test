@@ -39,7 +39,7 @@ Subfolders are outputted for each strain. Within each subfolder (assuming you ar
 * trim
   * Contains the trimmed subsampled paired end fastqs (n = 100)
 Additionally, outside of the subfolders:
-* collate_ani.csv
+* coallate_ani.csv
   * Contains the ani values for each strain (col: strain, row: ani)
  
 ### Running Rscript
