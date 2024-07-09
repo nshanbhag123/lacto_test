@@ -64,6 +64,6 @@ for (i in 1:nrow(real_ani)){
     {emp[i]<-pemp(real_ani$ani[i],boot_strap,discrete = FALSE)}
 }
 output <- cbind(real_ani, emp)
-outpath <- paste(outpath, "/", "empirical_ps.csv" ,sep = "")
+outpath <- paste(args$outpath, "/", "empirical_ps.csv" ,sep = "")
 
 write.csv(output, outpath)

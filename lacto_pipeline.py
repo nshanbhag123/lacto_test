@@ -4,7 +4,6 @@ import os
 import random
 import subprocess
 import pandas as pd
-import numpy as np
 import argparse
 #%%
 def count_reads(fastq):
