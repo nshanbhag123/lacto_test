@@ -50,4 +50,12 @@ Additionally, outside of the subfolders:
  ```
  Rscript stats.r --simu_anis '/path/to/coallate_ani.csv' --test_anis '/path/to/test_ani.csv' --out '/path/to/output'
  ```
+
+ ### Rscript output
+ * density.png
+  * Contains the kernel density plot of the bootstrapped ANI values for your input fastq files
+ * stats.txt
+  * Basic statistics on your ANI values across your strains
+ * empirical_ps.csv
+  * Contains the empirical p-values (last column) imposed on the density plot for each of your test fastANI inputs
  
