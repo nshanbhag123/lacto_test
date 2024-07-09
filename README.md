@@ -52,10 +52,10 @@ Additionally, outside of the subfolders:
  ```
 
  ### Rscript output
- * density.png
+* density.png
   * Contains the kernel density plot of the bootstrapped ANI values for your input fastq files
- * stats.txt
+* stats.txt
   * Basic statistics on your ANI values across your strains
- * empirical_ps.csv
+* empirical_ps.csv
   * Contains the empirical p-values (last column) imposed on the density plot for each of your test fastANI inputs
  
