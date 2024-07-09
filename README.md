@@ -45,7 +45,7 @@ Additionally, outside of the subfolders:
 ### Running Rscript
 * simu_anis
   * Contains the output from the lacto_pipeline.py script (coallated anis for each strain)
-*  test_anis
+* test_anis
   * Contains the fastani output from your own set of strains (must be the same species as your fastqs) 
  ```
  Rscript stats.r --simu_anis '/path/to/coallate_ani.csv' --test_anis '/path/to/test_ani.csv' --out '/path/to/output'
