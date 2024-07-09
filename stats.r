@@ -8,7 +8,7 @@ library(argparse)
 parser <- ArgumentParser(description='Visualize ANI Distribution and Compute Empirical P-Values')
 parser$add_argument('--simu_anis', help='specify path to collate ani file')
 parser$add_argument('--test_anis', help = 'specify path to test ani file')
-parser$add_argument('--outpath', help = 'specify path to output folder')
+parser$add_argument('--out', help = 'specify path to output folder')
 args <- parser$parse_args()
 
 
@@ -18,7 +18,7 @@ df <- read.csv(args$simu_anis)
 df <- pivot_longer(df, cols = -X, names_to = "strain", values_to = "ani")
 
 ###############################
-stats_output <- paste(args$outpath, "/", "stats.txt", sep = "")
+stats_output <- paste(args$outh, "/", "stats.txt", sep = "")
 sink(stats_output)
 
 ani <- df$ani
@@ -51,7 +51,7 @@ sink()
 boot_strap <-sample(ani,size=10000,replace = TRUE) 
 boot_strap_df <- data.frame(boot_strap)
 gg <- boot_strap_df %>% ggplot( aes(x=boot_strap)) + geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8) +ggtitle("Density plot of ANI values") + xlab("ANI values(bootstrapped)")
-gg_output <- paste(args$outpath, "/", "density.png", sep = "") 
+gg_output <- paste(args$out, "/", "density.png", sep = "") 
 ggsave(gg_output, plot = gg, device = "png")
 
 
@@ -64,6 +64,6 @@ for (i in 1:nrow(real_ani)){
     {emp[i]<-pemp(real_ani$ani[i],boot_strap,discrete = FALSE)}
 }
 output <- cbind(real_ani, emp)
-outpath <- paste(args$outpath, "/", "empirical_ps.csv" ,sep = "")
+outpath <- paste(args$out, "/", "empirical_ps.csv" ,sep = "")
 
 write.csv(output, outpath)
