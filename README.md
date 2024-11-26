@@ -1,6 +1,8 @@
 ### Cleaning up Lacto Project
 
-This assumes you already have SRA fastq files downloaded for multiple strains within the same species (i.e. Lactobacillus iners UMB4066, UMB 4068)
+This assumes you already have SRA fastq files downloaded for multiple strains within the same species (i.e. Lactobacillus iners UMB4066, UMB4068).
+This code is adapted from [LactoCompare](https://github.com/putonti/LactoCompare). I cleaned up this code and present it in the form of a pipeline to automate all of the steps for user-friendly access. 
+
 
 ### Software
 
